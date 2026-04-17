@@ -1529,9 +1529,31 @@ Rules:
         <div class="container fade-in">
             <h2>Prêt à Utiliser OMEGAHUB ?</h2>
             <p>THE OS OF THE AI ERA. Un système d'exploitation complet pour l'intelligence artificielle.</p>
-            <a href="#products" class="btn btn-primary">🚀 Commencer Maintenant</a>
+            <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+                <a href="#products" class="btn btn-primary">🚀 Commencer maintenant</a>
+                <a href="https://github.com/gadboisjean1000-arch/sevengate-store" class="btn btn-secondary" style="background:transparent;color:white;border:2px solid white;">⭐ Star on GitHub</a>
+            </div>
+            <div style="margin-top:32px;padding:24px;background:rgba(255,255,255,0.1);border-radius:16px;backdrop-filter:blur(10px);">
+                <h3 style="color:white;margin-bottom:16px;">📧 Rejoignez la Beta</h3>
+                <form id="betaForm" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;" onsubmit="submitBeta(event)">
+                    <input type="email" id="betaEmail" placeholder="votre@email.com" required style="padding:14px 20px;border:none;border-radius:50px;min-width:280px;font-size:1rem;">
+                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                </form>
+                <p id="betaMsg" style="color:#10b981;margin-top:12px;display:none;">✅ Merci! Vous serez contacté bientôt.</p>
+            </div>
         </div>
     </section>
+    
+    <script>
+    function submitBeta(e) {
+        e.preventDefault();
+        const email = document.getElementById('betaEmail').value;
+        localStorage.setItem('beta_signup_' + Date.now(), email);
+        document.getElementById('betaMsg').style.display = 'block';
+        document.getElementById('betaEmail').value = '';
+        console.log('Beta signup:', email);
+    }
+    </script>
     
     <!-- Footer -->
     <footer>
@@ -1586,9 +1608,8 @@ Rules:
             <div class="footer-bottom">
                 <p>© 2026 OMEGAHUB. THE OS OF THE AI ERA | Politesse, tempo, bonnification à 101%.</p>
                 <div class="footer-social">
-                    <a href="#" title="GitHub">🐙</a>
-                    <a href="#" title="LinkedIn">💼</a>
-                    <a href="#" title="Twitter">🐦</a>
+                    <a href="https://github.com/gadboisjean1000-arch/sevengate-store" title="GitHub" target="_blank">🐙</a>
+                    <a href="https://www.linkedin.com/in/jean-gadbois" title="LinkedIn" target="_blank">💼</a>
                 </div>
             </div>
         </div>
