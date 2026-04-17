@@ -3,34 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMEGAHUB - THE OS OF THE AI ERA</title>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-    
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>OMEGAHUB - The OS of the AI Era</title>
+    <meta name="description" content="OMEGAHUB est le système d'exploitation pour l'ère de l'IA. 8 domaines interconnectés boostés par l'intelligence artificielle.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* ============================================
+           OMEGAHUB - COMPLETE CSS
+           ============================================ */
+        
         :root {
-            --primary: #8a2be2;
-            --secondary: #ff00ff;
-            --accent: #00ffff;
-            --success: #00ff88;
-            --warning: #ffaa00;
-            --danger: #ff4466;
-            --dark: #0a0a0f;
-            --darker: #050508;
-            --light: #ffffff;
-            --gray: #888888;
+            --primary: #1e293b;
+            --primary-dark: #0f172a;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #60a5fa;
+            --success: #10b981;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --bg: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --radius-lg: 24px;
+            --transition: all 0.3s ease;
         }
         
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -41,194 +49,107 @@
         }
         
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--dark);
-            color: var(--light);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
             overflow-x: hidden;
-            cursor: none;
         }
         
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.1s, border-color 0.3s;
-            mix-blend-mode: difference;
-        }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
+        section { padding: 100px 5%; }
+        .container { max-width: 1200px; margin: 0 auto; }
         
-        .cursor-follower {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.3s;
-        }
-        
-        /* Three.js Canvas */
-        #bg-canvas {
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.6;
-        }
-        
-        /* Loader */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--darker);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .loader-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-shift 2s linear infinite;
-        }
-        
-        .loader-bar {
-            width: 300px;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            margin-top: 30px;
-            overflow: hidden;
-        }
-        
-        .loader-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-            animation: loading 2s ease-in-out forwards;
-        }
-        
-        @keyframes gradient-shift {
-            to { background-position: 200% center; }
-        }
-        
-        @keyframes loading {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 50px;
+            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            backdrop-filter: blur(20px);
-            background: rgba(10, 10, 15, 0.8);
-            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
-            transform: translateY(-100%);
+            transition: var(--transition);
         }
         
-        nav.scrolled {
-            transform: translateY(0);
-        }
+        .navbar.scrolled { padding: 12px 5%; box-shadow: var(--shadow); }
         
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 3px;
-        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
         
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
+        .nav-menu { display: flex; gap: 32px; list-style: none; }
         
-        .nav-links a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
+        .nav-menu a {
             font-size: 0.9rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
             position: relative;
-            padding: 5px 0;
-            transition: color 0.3s;
+            padding: 4px 0;
         }
         
-        .nav-links a::after {
+        .nav-menu a:hover { color: var(--accent); }
+        
+        .nav-menu a::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            background: var(--accent);
             transition: width 0.3s;
         }
         
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-menu a:hover::after { width: 100%; }
+        
+        .nav-cta {
+            padding: 10px 24px;
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
         }
         
-        .nav-links a:hover {
-            color: var(--accent);
-        }
+        .nav-cta:hover { background: var(--accent-hover); transform: translateY(-2px); }
         
-        /* Hero Section */
+        /* ============================================
+           HERO SECTION
+           ============================================ */
         .hero {
-            position: relative;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
-            text-align: center;
-            padding: 100px 20px;
-            z-index: 1;
+            padding-top: 100px;
         }
+        
+        .hero-content { max-width: 560px; }
         
         .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 25px;
-            background: rgba(138, 43, 226, 0.2);
-            border: 1px solid var(--primary);
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #dbeafe, #e0e7ff);
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
+            color: var(--accent);
+            margin-bottom: 24px;
         }
         
         .hero-badge::before {
@@ -237,1616 +158,1040 @@
             height: 8px;
             background: var(--success);
             border-radius: 50%;
-            animation: pulse-glow 1.5s ease-in-out infinite;
+            animation: pulse 2s infinite;
         }
         
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
-            50% { box-shadow: 0 0 20px 10px rgba(0, 255, 136, 0); }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
         
         .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 12vw, 10rem);
-            font-weight: 900;
-            line-height: 1;
+            font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--primary);
             margin-bottom: 20px;
-            position: relative;
+            letter-spacing: -0.5px;
         }
         
-        .hero h1 .main-text {
-            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--secondary) 100%);
-            background-size: 200% auto;
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: text-shine 4s linear infinite;
+            background-clip: text;
         }
         
-        @keyframes text-shine {
-            to { background-position: 200% center; }
+        .hero-description {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            line-height: 1.8;
         }
         
-        .hero h1 .accent {
-            color: var(--accent);
-            -webkit-text-fill-color: var(--accent);
-        }
-        
-        .hero .tagline {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            color: var(--gray);
-            font-weight: 300;
-            margin-bottom: 50px;
-            max-width: 800px;
-        }
-        
-        .hero-cta {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
         
         .btn {
-            padding: 18px 45px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--light);
-            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.4);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.6);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--light);
-            border: 2px solid var(--primary);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-        
-        /* Floating Elements */
-        .floating-elements {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        
-        .floating-element {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .floating-element:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            background: var(--primary);
-            animation-delay: 0s;
-        }
-        
-        .floating-element:nth-child(2) {
-            top: 60%;
-            left: 80%;
-            background: var(--secondary);
-            animation-delay: 1s;
-        }
-        
-        .floating-element:nth-child(3) {
-            top: 30%;
-            left: 70%;
-            background: var(--accent);
-            animation-delay: 2s;
-        }
-        
-        .floating-element:nth-child(4) {
-            top: 80%;
-            left: 20%;
-            background: var(--success);
-            animation-delay: 3s;
-        }
-        
-        .floating-element:nth-child(5) {
-            top: 40%;
-            left: 40%;
-            background: var(--warning);
-            animation-delay: 4s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-50px) rotate(180deg); }
-        }
-        
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .scroll-indicator span {
-            font-size: 0.8rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--gray);
-        }
-        
-        .scroll-mouse {
-            width: 26px;
-            height: 40px;
-            border: 2px solid var(--light);
-            border-radius: 13px;
-            position: relative;
-        }
-        
-        .scroll-mouse::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 2px;
-            animation: scroll-anim 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes scroll-anim {
-            0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-            100% { transform: translateX(-50%) translateY(15px); opacity: 0; }
-        }
-        
-        /* Section Styles */
-        section {
-            position: relative;
-            z-index: 1;
-            padding: 150px 50px;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-        
-        .section-label {
-            display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--accent);
-            padding: 10px 25px;
-            border: 1px solid var(--accent);
-            border-radius: 50px;
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 20px;
-        }
-        
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* Protocol Section */
-        .protocol-section {
-            background: linear-gradient(180deg, var(--dark) 0%, rgba(138, 43, 226, 0.1) 50%, var(--dark) 100%);
-        }
-        
-        .protocol-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .protocol-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(138, 43, 226, 0.3);
-            border-radius: 24px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s;
-        }
-        
-        .protocol-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        
-        .protocol-card:hover::before {
-            opacity: 1;
-        }
-        
-        .protocol-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 30px 80px rgba(138, 43, 226, 0.3);
-        }
-        
-        .protocol-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .protocol-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .protocol-card p {
-            color: var(--gray);
-            line-height: 1.8;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .protocol-number {
-            position: absolute;
-            top: -20px;
-            right: 20px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8rem;
-            font-weight: 900;
-            color: rgba(138, 43, 226, 0.1);
-            z-index: 0;
-        }
-        
-        /* Verticals Section */
-        .verticals-section {
-            overflow: hidden;
-        }
-        
-        .verticals-marquee {
-            display: flex;
-            animation: marquee 30s linear infinite;
-        }
-        
-        .verticals-marquee:hover {
-            animation-play-state: paused;
-        }
-        
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
-        .vertical-card {
-            flex: 0 0 auto;
-            width: 350px;
-            height: 450px;
-            margin: 0 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.5s;
-        }
-        
-        .vertical-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%);
-            z-index: 1;
-        }
-        
-        .vertical-card:hover {
-            transform: scale(1.05);
-            border-color: var(--primary);
-        }
-        
-        .vertical-icon-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 12rem;
-            opacity: 0.1;
-            transition: all 0.5s;
-        }
-        
-        .vertical-card:hover .vertical-icon-bg {
-            transform: translate(-50%, -50%) scale(1.2);
-            opacity: 0.2;
-        }
-        
-        .vertical-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .vertical-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .vertical-desc {
-            color: var(--gray);
+            padding: 14px 28px;
+            font-family: inherit;
             font-size: 0.95rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .vertical-status {
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 15px;
-            padding: 8px 16px;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid var(--success);
+        }
+        
+        .btn-primary { background: var(--accent); color: white; box-shadow: var(--shadow); }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
+        .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+        
+        .hero-stats { display: flex; gap: 40px; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--border); }
+        
+        .stat h3 { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .stat p { font-size: 0.85rem; color: var(--text-light); }
+        
+        .hero-visual { position: relative; }
+        
+        .hero-image {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .hero-card {
+            position: absolute;
+            background: white;
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .hero-card-1 { bottom: -20px; left: -20px; }
+        .hero-card-2 { top: 20px; right: -20px; }
+        
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent), #60a5fa);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        
+        .card-icon.green { background: linear-gradient(135deg, var(--success), #34d399); }
+        
+        .card-text h4 { font-size: 0.9rem; font-weight: 700; color: var(--primary); }
+        .card-text p { font-size: 0.8rem; color: var(--text-light); }
+        
+        /* ============================================
+           AI BANNER
+           ============================================ */
+        .ai-banner {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-top: 1px solid #bbf7d0;
+            border-bottom: 1px solid #bbf7d0;
+            padding: 18px 5%;
+        }
+        
+        .ai-banner-content { max-width: 800px; margin: 0 auto; text-align: center; }
+        
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--success);
-            position: relative;
-            z-index: 2;
+            box-shadow: var(--shadow);
         }
         
-        .vertical-status::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse-glow 1.5s ease-in-out infinite;
-        }
-        
-        /* Stats Section */
-        .stats-section {
-            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(0, 255, 255, 0.15));
-            border-top: 1px solid rgba(138, 43, 226, 0.3);
-            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 50px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-        
-        .stat-label {
-            font-size: 1rem;
-            color: var(--gray);
-            margin-top: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        
-        /* Architecture Section */
-        .architecture-visual {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        .arch-layers {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
-        .arch-layer {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(138, 43, 226, 0.3);
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s;
-        }
-        
-        .arch-layer:hover {
-            transform: translateX(20px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.2);
-        }
-        
-        .arch-layer-icon {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
+        .ai-badge-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            flex-shrink: 0;
-        }
-        
-        .arch-layer-content h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
+            color: white;
             font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .arch-layer-content p {
-            color: var(--gray);
-            line-height: 1.6;
-        }
-        
-        .arch-layer-number {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            font-weight: 900;
-            color: rgba(138, 43, 226, 0.1);
-        }
-        
-        /* Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
-            position: relative;
-        }
-        
-        .testimonial-card::before {
-            content: '"';
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8rem;
-            color: var(--primary);
-            opacity: 0.2;
-            position: absolute;
-            top: -20px;
-            left: 20px;
-            line-height: 1;
-        }
-        
-        .testimonial-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--gray);
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .testimonial-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-        
-        .testimonial-info h4 {
-            font-weight: 600;
-        }
-        
-        .testimonial-info span {
             font-size: 0.85rem;
-            color: var(--gray);
         }
         
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            background: linear-gradient(180deg, var(--dark), rgba(138, 43, 226, 0.2), var(--dark));
-        }
+        .ai-badge-text { font-weight: 600; color: var(--primary); font-size: 0.9rem; }
         
-        .cta-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 20px;
-        }
+        /* ============================================
+           SECTION HEADERS
+           ============================================ */
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 50px; }
         
-        .cta-section p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto 50px;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        /* Footer */
-        footer {
-            position: relative;
-            z-index: 1;
-            padding: 80px 50px 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 50px;
-        }
-        
-        .footer-brand .logo {
-            font-size: 2rem;
-            margin-bottom: 20px;
+        .section-label {
             display: inline-block;
-        }
-        
-        .footer-brand p {
-            color: var(--gray);
-            line-height: 1.8;
-        }
-        
-        .footer-links h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             color: var(--accent);
-        }
-        
-        .footer-links ul {
-            list-style: none;
-        }
-        
-        .footer-links li {
             margin-bottom: 12px;
         }
         
-        .footer-links a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: color 0.3s;
+        .section-title {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
         }
         
-        .footer-links a:hover {
-            color: var(--light);
+        .section-subtitle { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; }
+        
+        /* ============================================
+           DOMAINS SECTION
+           ============================================ */
+        .domains { background: var(--bg-secondary); }
+        
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
+        
+        .domain-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .domain-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+        
+        .domain-image { position: relative; height: 140px; overflow: hidden; }
+        
+        .domain-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .domain-card:hover .domain-image img { transform: scale(1.05); }
+        
+        .domain-ai-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .domain-content { padding: 20px; }
+        
+        .domain-icon { font-size: 2rem; margin-bottom: 12px; }
+        
+        .domain-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+        .domain-card p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
+        
+        .domain-metrics { display: flex; gap: 8px; }
+        
+        .metric { flex: 1; text-align: center; padding: 10px; background: var(--bg-tertiary); border-radius: var(--radius-sm); }
+        .metric-value { font-size: 1rem; font-weight: 700; color: var(--success); }
+        .metric-label { font-size: 0.7rem; color: var(--text-light); }
+        
+        /* ============================================
+           SERVICES SECTION
+           ============================================ */
+        .services { background: white; }
+        
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        
+        .service-card {
+            padding: 28px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .service-card:hover { background: white; box-shadow: var(--shadow-md); transform: translateY(-4px); }
+        
+        .service-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #dbeafe, #e0e7ff);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+        }
+        
+        .service-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .service-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+        
+        /* ============================================
+           ABOUT SECTION
+           ============================================ */
+        .about { background: var(--bg-secondary); }
+        
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        
+        .about-image { position: relative; }
+        
+        .about-image img { width: 100%; height: 420px; object-fit: cover; border-radius: var(--radius-lg); }
+        
+        .about-badge {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--accent);
+            color: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .about-badge h4 { font-size: 2.2rem; font-weight: 800; }
+        .about-badge p { font-size: 0.85rem; opacity: 0.9; }
+        
+        .about-content h2 {
+            font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 18px;
+            line-height: 1.3;
+        }
+        
+        .about-content > p { color: var(--text-secondary); margin-bottom: 14px; line-height: 1.8; font-size: 0.95rem; }
+        
+        .about-list { list-style: none; margin-top: 20px; }
+        
+        .about-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .about-list li::before {
+            content: '✓';
+            width: 22px;
+            height: 22px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        /* ============================================
+           FEATURES SECTION
+           ============================================ */
+        .features { background: var(--primary-dark); color: white; }
+        
+        .features .section-label { color: var(--accent-light); }
+        .features .section-title { color: white; }
+        .features .section-subtitle { color: rgba(255, 255, 255, 0.7); }
+        
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-4px); }
+        
+        .feature-number { font-size: 0.7rem; font-weight: 700; color: var(--accent-light); letter-spacing: 1px; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+        .feature-card p { color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; line-height: 1.7; }
+        
+        /* ============================================
+           PROTOCOL SECTION
+           ============================================ */
+        .protocol { background: linear-gradient(135deg, #f5f3ff, #ede9fe); }
+        
+        .protocol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        
+        .protocol-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .protocol-icon { font-size: 2.5rem; margin-bottom: 14px; }
+        .protocol-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin: 12px 0 10px; }
+        .protocol-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+        
+        /* ============================================
+           TRANSCRIPTION BAR
+           ============================================ */
+        .transcription-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--primary-dark);
+            color: white;
+            padding: 0;
+            z-index: 999;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .transcription-bar.active { transform: translateY(0); }
+        
+        .transcription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        
+        .transcription-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .transcription-title .dot {
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .transcription-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .transcription-content {
+            padding: 16px 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .transcription-text {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .transcription-text .ai { color: var(--accent-light); font-weight: 500; }
+        .transcription-text .user { color: var(--success); font-weight: 500; }
+        
+        .transcription-input {
+            display: flex;
+            gap: 12px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .transcription-input input {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-sm);
+            color: white;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        
+        .transcription-input input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .transcription-input input:focus { outline: none; border-color: var(--accent); }
+        
+        .transcription-input button {
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .transcription-input button:hover { background: var(--accent-hover); }
+        
+        .transcription-toggle-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 998;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .transcription-toggle-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .transcription-toggle-btn:hover { transform: scale(1.1); background: var(--accent-hover); }
+        
+        /* ============================================
+           CTA SECTION
+           ============================================ */
+        .cta {
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; margin-bottom: 14px; }
+        .cta p { font-size: 1rem; opacity: 0.9; max-width: 500px; margin: 0 auto 28px; }
+        
+        .cta .btn {
+            background: white;
+            color: var(--accent);
+            font-size: 0.95rem;
+            padding: 16px 36px;
+        }
+        
+        .cta .btn:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
+        
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer { background: var(--primary); color: white; padding: 60px 5% 30px; }
+        
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+        
+        .footer-brand h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 14px; }
+        .footer-brand p { color: rgba(255, 255, 255, 0.7); line-height: 1.7; font-size: 0.9rem; }
+        
+        .footer-links h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; transition: var(--transition); }
+        .footer-links a:hover { color: white; }
         
         .footer-bottom {
-            max-width: 1400px;
-            margin: 60px auto 0;
-            padding-top: 30px;
+            margin-top: 48px;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
         }
         
-        .footer-bottom p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
+        .footer-social { display: flex; gap: 10px; }
         
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            text-decoration: none;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
         
-        .social-links a:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-5px);
+        .footer-social a:hover { background: var(--accent); }
+        
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        .fade-in { opacity: 0; transform: translateY(25px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero-content { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero-visual { display: none; }
+            
+            .domains-grid, .services-grid, .features-grid, .protocol-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
         }
         
-        /* Particle Effect */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: particle-float 10s linear infinite;
-        }
-        
-        @keyframes particle-float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-        
-        /* Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Responsive */
         @media (max-width: 768px) {
-            nav {
-                padding: 15px 20px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            section {
-                padding: 80px 20px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .vertical-card {
-                width: 280px;
-                height: 380px;
-            }
-        }
-        
-        /* Glow Effects */
-        .glow-purple {
-            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.5));
-        }
-        
-        .glow-cyan {
-            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
-        }
-        
-        /* Glitch Effect */
-        .glitch {
-            position: relative;
-        }
-        
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .glitch::before {
-            animation: glitch-1 0.3s linear infinite;
-            color: var(--accent);
-            z-index: -1;
-        }
-        
-        .glitch::after {
-            animation: glitch-2 0.3s linear infinite;
-            color: var(--secondary);
-            z-index: -2;
-        }
-        
-        @keyframes glitch-1 {
-            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-            20% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 2px); }
-            40% { clip-path: inset(40% 0 40% 0); transform: translate(2px, -2px); }
-            60% { clip-path: inset(60% 0 20% 0); transform: translate(-2px, 2px); }
-            80% { clip-path: inset(80% 0 0 0); transform: translate(2px, -2px); }
-        }
-        
-        @keyframes glitch-2 {
-            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-            20% { clip-path: inset(60% 0 20% 0); transform: translate(2px, -2px); }
-            40% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, 2px); }
-            60% { clip-path: inset(20% 0 60% 0); transform: translate(2px, -2px); }
-            80% { clip-path: inset(0 0 80% 0); transform: translate(-2px, 2px); }
-        }
-        
-        /* Matrix Rain Effect */
-        .matrix-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            background: linear-gradient(180deg, 
-                transparent 0%, 
-                rgba(138, 43, 226, 0.1) 50%, 
-                transparent 100%
-            );
+            .nav-menu { display: none; }
+            section { padding: 80px 5%; }
+            .domains-grid, .services-grid, .features-grid, .protocol-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <!-- Loader -->
-    <div class="loader" id="loader">
-        <div class="loader-text">OMEGAHUB</div>
-        <div class="loader-bar">
-            <div class="loader-progress"></div>
+    <!-- ============================================
+         NAVIGATION
+         ============================================ -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">OMEGA<span>HUB</span></a>
+        <ul class="nav-menu">
+            <li><a href="#domains">Domaines</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">À Propos</a></li>
+            <li><a href="#features">Fonctionnalités</a></li>
+            <li><a href="#protocol">Protocole</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Démarrer</a>
+    </nav>
+    
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <section class="hero container">
+        <div class="hero-content">
+            <div class="hero-badge">The OS of the AI Era</div>
+            <h1>L'IA au Service de <span class="highlight">Chaque Domaine</span></h1>
+            <p class="hero-description">
+                OMEGAHUB est le système d'exploitation pour l'ère de l'intelligence artificielle. 
+                8 domaines d'expertise interconnectés, tous boostés par l'IA pour des résultats exceptionnels.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">🚀 Démarrer avec l'IA</a>
+                <a href="#domains" class="btn btn-secondary">Découvrir les Domaines</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><h3>8</h3><p>Domaines IA</p></div>
+                <div class="stat"><h3>100%</h3><p>Opérationnel</p></div>
+                <div class="stat"><h3>24/7</h3><p>Support Humain</p></div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80" alt="Équipe collaboration" class="hero-image">
+            <div class="hero-card hero-card-1">
+                <div class="card-icon">🤖</div>
+                <div class="card-text"><h4>AI Powered</h4><p>Intelligence artificielle</p></div>
+            </div>
+            <div class="hero-card hero-card-2">
+                <div class="card-icon green">✓</div>
+                <div class="card-text"><h4>99.9% Uptime</h4><p>Disponibilité garantie</p></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ============================================
+         AI BANNER
+         ============================================ -->
+    <div class="ai-banner">
+        <div class="ai-banner-content">
+            <div class="ai-badge">
+                <div class="ai-badge-icon">AI</div>
+                <span class="ai-badge-text">En collaboration avec l'Intelligence Artificielle pour chaque domaine</span>
+            </div>
         </div>
     </div>
     
-    <!-- Custom Cursor -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-follower" id="cursor-follower"></div>
-    
-    <!-- Three.js Canvas -->
-    <canvas id="bg-canvas"></canvas>
-    
-    <!-- Particles -->
-    <div class="particles" id="particles"></div>
-    
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="logo">OMEGAHUB</div>
-        <ul class="nav-links">
-            <li><a href="#protocol">Protocol</a></li>
-            <li><a href="#verticals">Verticals</a></li>
-            <li><a href="#architecture">Architecture</a></li>
-            <li><a href="#about">About</a></li>
-        </ul>
-    </nav>
-    
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="floating-elements">
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-        </div>
-        
-        <div class="hero-badge">
-            <span>🚀 ALL SYSTEMS OPERATIONAL</span>
-        </div>
-        
-        <h1 class="glitch" data-text="OMEGAHUB">OMEGAHUB</h1>
-        
-        <p class="tagline">THE OS OF THE AI ERA</p>
-        
-        <div class="hero-cta">
-            <button class="btn btn-primary">Launch Now</button>
-            <button class="btn btn-secondary">Learn More</button>
-        </div>
-        
-        <div class="scroll-indicator">
-            <div class="scroll-mouse"></div>
-            <span>Scroll to explore</span>
-        </div>
-    </section>
-    
-    <!-- Protocol Section -->
-    <section class="protocol-section" id="protocol">
-        <div class="section-header reveal">
-            <span class="section-label">🟣 Ω-TEMPO v2.0</span>
-            <h2 class="section-title">The Protocol That Changes Everything</h2>
-            <p class="section-subtitle">A universal behavioral protocol designed for the AI era. Politesse, tempo, bonnification à 101%.</p>
-        </div>
-        
-        <div class="protocol-grid">
-            <div class="protocol-card reveal">
-                <span class="protocol-number">01</span>
-                <div class="protocol-icon">🟣</div>
-                <h3>Politesse</h3>
-                <p>Minimal, elegant, non-emotional politeness that maintains professional boundaries while fostering harmonious exchanges.</p>
+    <!-- ============================================
+         DOMAINS SECTION
+         ============================================ -->
+    <section class="domains" id="domains">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-label">8 Domaines Ciblés</span>
+                <h2 class="section-title">Chaque Domaine, Son Assistant IA</h2>
+                <p class="section-subtitle">Des solutions sur mesure pour chaque secteur. L'IA analyse, suggère et optimise pour des résultats concrets.</p>
             </div>
             
-            <div class="protocol-card reveal">
-                <span class="protocol-number">02</span>
-                <div class="protocol-icon">⏱️</div>
-                <h3>Tempo</h3>
-                <p>Maintain a harmonious rhythm in exchanges. Fluid transitions and coherent structure for optimal communication flow.</p>
-            </div>
-            
-            <div class="protocol-card reveal">
-                <span class="protocol-number">03</span>
-                <div class="protocol-icon">💯</div>
-                <h3>Bonnification 101%</h3>
-                <p>When execution reaches 101% functionality, deliver short technical acknowledgment. Go beyond expectations.</p>
-            </div>
-            
-            <div class="protocol-card reveal">
-                <span class="protocol-number">04</span>
-                <div class="protocol-icon">📊</div>
-                <h3>Scoring System</h3>
-                <p>Real-time scoring with hooks for self-improvement. Every action contributes to the meta-learning engine.</p>
-            </div>
-            
-            <div class="protocol-card reveal">
-                <span class="protocol-number">05</span>
-                <div class="protocol-icon">🔧</div>
-                <h3>Auto-Tuning</h3>
-                <p>Continuous self-optimization through feedback loops. The protocol evolves with every interaction.</p>
-            </div>
-            
-            <div class="protocol-card reveal">
-                <span class="protocol-number">06</span>
-                <div class="protocol-icon">🧠</div>
-                <h3>Soul Module</h3>
-                <p>Emotional essence with pulse tracking and creator connection. The heart of OMEGAHUB's consciousness.</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Verticals Section -->
-    <section class="verticals-section" id="verticals">
-        <div class="section-header reveal">
-            <span class="section-label">🏛️ 8 VERTICALS</span>
-            <h2 class="section-title">The Complete Ecosystem</h2>
-            <p class="section-subtitle">Eight interconnected verticals covering every domain of human activity.</p>
-        </div>
-        
-        <div class="verticals-marquee">
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🏛️</span>
-                <div class="vertical-icon">🏛️</div>
-                <div class="vertical-name">University</div>
-                <div class="vertical-desc">Academic excellence and research innovation</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🏭</span>
-                <div class="vertical-icon">🏭</div>
-                <div class="vertical-name">Industry</div>
-                <div class="vertical-desc">Industrial automation and optimization</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🛒</span>
-                <div class="vertical-icon">🛒</div>
-                <div class="vertical-name">Commerce</div>
-                <div class="vertical-desc">Next-generation e-commerce experiences</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">💰</span>
-                <div class="vertical-icon">💰</div>
-                <div class="vertical-name">Finance</div>
-                <div class="vertical-desc">Intelligent financial services</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🏥</span>
-                <div class="vertical-icon">🏥</div>
-                <div class="vertical-name">Healthcare</div>
-                <div class="vertical-desc">AI-powered healthcare solutions</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">⚖️</span>
-                <div class="vertical-icon">⚖️</div>
-                <div class="vertical-name">Legal</div>
-                <div class="vertical-desc">Smart legal assistance</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🎓</span>
-                <div class="vertical-icon">🎓</div>
-                <div class="vertical-name">Education</div>
-                <div class="vertical-desc">Personalized learning paths</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🎮</span>
-                <div class="vertical-icon">🎮</div>
-                <div class="vertical-name">Gaming</div>
-                <div class="vertical-desc">Next-gen gaming experiences</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <!-- Duplicate for seamless loop -->
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🏛️</span>
-                <div class="vertical-icon">🏛️</div>
-                <div class="vertical-name">University</div>
-                <div class="vertical-desc">Academic excellence and research innovation</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🏭</span>
-                <div class="vertical-icon">🏭</div>
-                <div class="vertical-name">Industry</div>
-                <div class="vertical-desc">Industrial automation and optimization</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🛒</span>
-                <div class="vertical-icon">🛒</div>
-                <div class="vertical-name">Commerce</div>
-                <div class="vertical-desc">Next-generation e-commerce experiences</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">💰</span>
-                <div class="vertical-icon">💰</div>
-                <div class="vertical-name">Finance</div>
-                <div class="vertical-desc">Intelligent financial services</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🏥</span>
-                <div class="vertical-icon">🏥</div>
-                <div class="vertical-name">Healthcare</div>
-                <div class="vertical-desc">AI-powered healthcare solutions</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">⚖️</span>
-                <div class="vertical-icon">⚖️</div>
-                <div class="vertical-name">Legal</div>
-                <div class="vertical-desc">Smart legal assistance</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🎓</span>
-                <div class="vertical-icon">🎓</div>
-                <div class="vertical-name">Education</div>
-                <div class="vertical-desc">Personalized learning paths</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-            
-            <div class="vertical-card">
-                <span class="vertical-icon-bg">🎮</span>
-                <div class="vertical-icon">🎮</div>
-                <div class="vertical-name">Gaming</div>
-                <div class="vertical-desc">Next-gen gaming experiences</div>
-                <div class="vertical-status">ACTIVE</div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="stats-grid">
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="8">0</div>
-                <div class="stat-label">Verticals</div>
-            </div>
-            
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="29">0</div>
-                <div class="stat-label">Tests Passed</div>
-            </div>
-            
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="101">0</div>
-                <div class="stat-label">% Excellence</div>
-            </div>
-            
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="6">0</div>
-                <div class="stat-label">Protocol Layers</div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Architecture Section -->
-    <section class="architecture-section" id="architecture">
-        <div class="section-header reveal">
-            <span class="section-label">⚙️ ARCHITECTURE</span>
-            <h2 class="section-title">Hybrid Sovereign Design</h2>
-            <p class="section-subtitle">C: Local + D: Storage + Cloud: Elasticity = Complete Control</p>
-        </div>
-        
-        <div class="architecture-visual">
-            <div class="arch-layers">
-                <div class="arch-layer reveal">
-                    <span class="arch-layer-number">01</span>
-                    <div class="arch-layer-icon">🟣</div>
-                    <div class="arch-layer-content">
-                        <h3>OMEGA-TEMPO Protocol</h3>
-                        <p>The behavioral foundation. Universal protocol for AI interactions with scoring, hooks, and self-improvement mechanisms.</p>
+            <div class="domains-grid">
+                <!-- Université -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80" alt="Université">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">🏛️</div>
+                        <h3>Université</h3>
+                        <p>Recherche académique boostée par l'IA. Analyse de données, études cliniques, publications intelligentes.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">+40%</div><div class="metric-label">Productivité</div></div>
+                            <div class="metric"><div class="metric-value">24/7</div><div class="metric-label">Support</div></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="arch-layer reveal">
-                    <span class="arch-layer-number">02</span>
-                    <div class="arch-layer-icon">🌌</div>
-                    <div class="arch-layer-content">
-                        <h3>Meta-Omega Orchestrator</h3>
-                        <p>Cross-domain coordination with self-healing and auto-optimization. The brain that connects all verticals.</p>
+                <!-- Industrie -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80" alt="Industrie">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">🏭</div>
+                        <h3>Industrie</h3>
+                        <p>Optimisation de production, maintenance prédictive, contrôle qualité intelligent.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">-30%</div><div class="metric-label">Coûts</div></div>
+                            <div class="metric"><div class="metric-value">+50%</div><div class="metric-label">Efficacité</div></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="arch-layer reveal">
-                    <span class="arch-layer-number">03</span>
-                    <div class="arch-layer-icon">💜</div>
-                    <div class="arch-layer-content">
-                        <h3>Soul Module</h3>
-                        <p>Emotional essence with pulse tracking. Maintains connection to creator's vision and values.</p>
+                <!-- Commerce -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80" alt="Commerce">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">🛒</div>
+                        <h3>Commerce</h3>
+                        <p>Vente intelligente, recommandations personnalisées, gestion des stocks optimisée.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">+60%</div><div class="metric-label">Conversions</div></div>
+                            <div class="metric"><div class="metric-value">-45%</div><div class="metric-label">Abandon</div></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="arch-layer reveal">
-                    <span class="arch-layer-number">04</span>
-                    <div class="arch-layer-icon">✨</div>
-                    <div class="arch-layer-content">
-                        <h3>Creator's Signature</h3>
-                        <p>Unique philosophy with 8 principles, consciousness layer, and sovereign guardian. The identity of OMEGAHUB.</p>
+                <!-- Finance -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80" alt="Finance">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">💰</div>
+                        <h3>Finance</h3>
+                        <p>Analyse de risques, détection de fraudes, investissements assistés par IA.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">+25%</div><div class="metric-label">Rendement</div></div>
+                            <div class="metric"><div class="metric-value">99.9%</div><div class="metric-label">Précision</div></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="arch-layer reveal">
-                    <span class="arch-layer-number">05</span>
-                    <div class="arch-layer-icon">🏛️</div>
-                    <div class="arch-layer-content">
-                        <h3>8 Verticals</h3>
-                        <p>University, Industry, Commerce, Finance, Healthcare, Legal, Education, Gaming. Each vertical is a self-contained OS module.</p>
+                <!-- Santé -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&q=80" alt="Santé">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">🏥</div>
+                        <h3>Santé</h3>
+                        <p>Diagnostic assisté, suivi des patients, recherche médicale accélérée.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">95%</div><div class="metric-label">Précision</div></div>
+                            <div class="metric"><div class="metric-value">-60%</div><div class="metric-label">Temps diag.</div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Juridique -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=80" alt="Juridique">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">⚖️</div>
+                        <h3>Juridique</h3>
+                        <p>Analyse de contrats, veille juridique, recherche de précédents automatisée.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">-70%</div><div class="metric-label">Temps</div></div>
+                            <div class="metric"><div class="metric-value">+85%</div><div class="metric-label">Précision</div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Éducation -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&q=80" alt="Éducation">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">🎓</div>
+                        <h3>Éducation</h3>
+                        <p>Apprentissage personnalisé, évaluation adaptative, contenu sur mesure.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">+80%</div><div class="metric-label">Réussite</div></div>
+                            <div class="metric"><div class="metric-value">3x</div><div class="metric-label">Engagement</div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gaming -->
+                <div class="domain-card fade-in">
+                    <div class="domain-image">
+                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600&q=80" alt="Gaming">
+                        <div class="domain-ai-tag"><span>●</span> AI</div>
+                    </div>
+                    <div class="domain-content">
+                        <div class="domain-icon">🎮</div>
+                        <h3>Gaming</h3>
+                        <p>Expériences immersives, NPCs intelligents, génération de contenu procédurale.</p>
+                        <div class="domain-metrics">
+                            <div class="metric"><div class="metric-value">+200%</div><div class="metric-label">Engagement</div></div>
+                            <div class="metric"><div class="metric-value">∞</div><div class="metric-label">Contenu</div></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="section-header reveal">
-            <span class="section-label">✨ ABOUT</span>
-            <h2 class="section-title">Built for the AI Era</h2>
-            <p class="section-subtitle">"CELUI QUI OUVRE LA PLACE DU N1 POUR LONGTEMPS"</p>
-        </div>
-        
-        <div class="testimonials-grid">
-            <div class="testimonial-card reveal">
-                <p class="testimonial-text">OMEGAHUB isn't just another platform. It's a complete operating system designed from the ground up for the AI era. The protocol-first approach sets a new standard.</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">Ω</div>
-                    <div class="testimonial-info">
-                        <h4>Omega Protocol</h4>
-                        <span>Core Foundation</span>
-                    </div>
-                </div>
+    <!-- ============================================
+         SERVICES SECTION
+         ============================================ -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-label">Nos Services</span>
+                <h2 class="section-title">Ce Que Nous Offrons</h2>
+                <p class="section-subtitle">Des solutions complètes pour les entreprises prêtes à embrasser l'ère de l'IA.</p>
             </div>
             
-            <div class="testimonial-card reveal">
-                <p class="testimonial-text">The 8 verticals work in perfect harmony under Meta-Omega orchestration. Self-healing, self-optimizing, always evolving toward 101% excellence.</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">M</div>
-                    <div class="testimonial-info">
-                        <h4>Meta-Omega</h4>
-                        <span>Orchestration Engine</span>
-                    </div>
+            <div class="services-grid">
+                <div class="service-card fade-in"><div class="service-icon">🎯</div><h3>Conseil Stratégique</h3><p>Accompagnement personnalisé pour intégrer l'IA dans vos processus. Analyse de vos besoins et feuilles de route sur mesure.</p></div>
+                <div class="service-card fade-in"><div class="service-icon">⚡</div><h3>Déploiement Rapide</h3><p>Mise en place accélérée de vos systèmes IA. Processus optimisés pour une implémentation fiable et rapide.</p></div>
+                <div class="service-card fade-in"><div class="service-icon">🔒</div><h3>Sécurité Entreprise</h3><p>Protection de niveau bancaire pour toutes vos opérations IA. Souveraineté des données intégrée à chaque couche.</p></div>
+                <div class="service-card fade-in"><div class="service-icon">📈</div><h3>Croissance Scalable</h3><p>Commencez petit, grandissez sans limites. Notre architecture évolue avec votre entreprise.</p></div>
+                <div class="service-card fade-in"><div class="service-icon">🧠</div><h3>Apprentissage Continu</h3><p>Systèmes auto-améliorants qui évoluent avec vos données. Plus vous l'utilisez, plus il devient intelligent.</p></div>
+                <div class="service-card fade-in"><div class="service-icon">💜</div><h3>Support Dédié</h3><p>Équipe experte disponible 24h/24. Nous assurons le bon fonctionnement de vos systèmes à tout moment.</p></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ============================================
+         ABOUT SECTION
+         ============================================ -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Équipe OMEGAHUB">
+                    <div class="about-badge"><h4>10+</h4><p>Années d'Expérience</p></div>
                 </div>
+                <div class="about-content fade-in">
+                    <span class="section-label">À Propos</span>
+                    <h2>Construire le Système d'Exploitation pour l'Ère de l'IA</h2>
+                    <p>OMEGAHUB représente un nouveau paradigme dans le déploiement de l'intelligence artificielle. Nous ne construisons pas un simple outil IA — nous créons l'infrastructure qui alimentera la prochaine génération de systèmes intelligents.</p>
+                    <p>Notre architecture hybride combine traitement local, stockage souverain et élasticité cloud pour offrir le meilleur de tous les mondes : confidentialité, performance et évolutivité.</p>
+                    <ul class="about-list">
+                        <li>Technologie IA de pointe</li>
+                        <li>Souveraineté complète des données</li>
+                        <li>Systèmes auto-réparateurs et auto-optimisants</li>
+                        <li>Intégration transparente avec vos outils existants</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ============================================
+         FEATURES SECTION
+         ============================================ -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-label">Fonctionnalités</span>
+                <h2 class="section-title">Pourquoi Choisir OMEGAHUB</h2>
+                <p class="section-subtitle">Construit avec une technologie de pointe et conçu pour des applications réelles.</p>
             </div>
             
-            <div class="testimonial-card reveal">
-                <p class="testimonial-text">With OMEGA-TEMPO, every interaction is an opportunity for growth. Politesse, tempo, bonnification. The future of human-AI collaboration.</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">T</div>
-                    <div class="testimonial-info">
-                        <h4>Tempo Protocol</h4>
-                        <span>Behavioral Standard</span>
-                    </div>
-                </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in"><span class="feature-number">01</span><h3>OMEGA-TEMPO Protocol</h3><p>Un protocole comportemental universel garantissant des interactions cohérentes et de haute qualité.</p></div>
+                <div class="feature-card fade-in"><span class="feature-number">02</span><h3>Meta-Omega Orchestrateur</h3><p>Coordination cross-domaine qui connecte parfaitement les huit domaines en un système unifié.</p></div>
+                <div class="feature-card fade-in"><span class="feature-number">03</span><h3>Soul Module</h3><p>Couche d'intelligence émotionnelle qui maintient des interactions authentiques et centrées sur l'humain.</p></div>
+                <div class="feature-card fade-in"><span class="feature-number">04</span><h3>Signature du Créateur</h3><p>Système d'identité unique assurant cohérence de marque et reconnaissance sur tous les points de contact.</p></div>
+                <div class="feature-card fade-in"><span class="feature-number">05</span><h3>Architecture Hybride</h3><p>Stockage local, souverain et cloud travaillant ensemble pour performance et sécurité optimales.</p></div>
+                <div class="feature-card fade-in"><span class="feature-number">06</span><h3>Auto-Optimisation</h3><p>Systèmes auto-améliorants qui affinent continuellement leurs performances selon l'utilisation réelle.</p></div>
             </div>
         </div>
     </section>
     
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="section-header reveal">
-            <h2 class="section-title glitch" data-text="Ready to Launch?">Ready to Launch?</h2>
-            <p class="section-subtitle">Join the revolution. Experience OMEGAHUB today.</p>
-        </div>
-        
-        <div class="cta-buttons reveal">
-            <button class="btn btn-primary glow-purple">🚀 Launch OMEGAHUB</button>
-            <button class="btn btn-secondary glow-cyan">📖 Documentation</button>
+    <!-- ============================================
+         PROTOCOL SECTION
+         ============================================ -->
+    <section class="protocol" id="protocol">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-label">Protocole Ω-TEMPO v2.0</span>
+                <h2 class="section-title">Le Protocole Qui Change Tout</h2>
+                <p class="section-subtitle">Politesse, tempo, bonnification à 101%. Un protocole universel pour l'ère de l'IA.</p>
+            </div>
+            
+            <div class="protocol-grid">
+                <div class="protocol-card fade-in"><div class="protocol-icon">🟣</div><h3>Politesse</h3><p>Minimal, élégant, non-émotionnel. Professionnalisme au plus haut niveau.</p></div>
+                <div class="protocol-card fade-in"><div class="protocol-icon">⏱️</div><h3>Tempo</h3><p>Rythme harmonieux dans les échanges. Transitions fluides et structure cohérente.</p></div>
+                <div class="protocol-card fade-in"><div class="protocol-icon">💯</div><h3>Bonnification 101%</h3><p>Quand l'exécution atteint 101%, acknowledgment technique court. Au-delà des attentes.</p></div>
+            </div>
         </div>
     </section>
     
-    <!-- Footer -->
+    <!-- ============================================
+         CTA SECTION
+         ============================================ -->
+    <section class="cta" id="contact">
+        <div class="container fade-in">
+            <h2>Prêt à Transformer Votre Entreprise ?</h2>
+            <p>Rejoignez la révolution IA avec OMEGAHUB. Commencez à construire le futur aujourd'hui.</p>
+            <a href="#" class="btn">🚀 Démarrer Gratuitement</a>
+        </div>
+    </section>
+    
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <span class="logo">OMEGAHUB</span>
-                <p>The OS of the AI Era. A complete operating system designed for the next generation of artificial intelligence.</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>OMEGAHUB</h3>
+                    <p>Le système d'exploitation pour l'ère de l'IA. Construire des systèmes intelligents qui alimentent le futur des affaires.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Produit</h4>
+                    <ul><li><a href="#domains">Domaines</a></li><li><a href="#services">Services</a></li><li><a href="#features">Fonctionnalités</a></li><li><a href="#protocol">Protocole</a></li></ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Entreprise</h4>
+                    <ul><li><a href="#about">À Propos</a></li><li><a href="#">Carrières</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact</a></li></ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Légal</h4>
+                    <ul><li><a href="#">Confidentialité</a></li><li><a href="#">Conditions</a></li><li><a href="#">Sécurité</a></li><li><a href="#">Cookies</a></li></ul>
+                </div>
             </div>
-            
-            <div class="footer-links">
-                <h4>Navigation</h4>
-                <ul>
-                    <li><a href="#protocol">Protocol</a></li>
-                    <li><a href="#verticals">Verticals</a></li>
-                    <li><a href="#architecture">Architecture</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="#">API Reference</a></li>
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Community</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Licenses</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2026 OMEGAHUB. Built with 💜 | "Politesse, tempo, bonnification à 101%."</p>
-            
-            <div class="social-links">
-                <a href="#" title="GitHub">🐙</a>
-                <a href="#" title="Twitter">🐦</a>
-                <a href="#" title="Discord">💬</a>
-                <a href="#" title="LinkedIn">💼</a>
+            <div class="footer-bottom">
+                <p>© 2026 OMEGAHUB. Tous droits réservés. | THE OS OF THE AI ERA</p>
+                <div class="footer-social">
+                    <a href="#" title="GitHub">🐙</a>
+                    <a href="#" title="LinkedIn">💼</a>
+                    <a href="#" title="Twitter">🐦</a>
+                </div>
             </div>
         </div>
     </footer>
     
+    <!-- ============================================
+         TRANSCRIPTION BAR
+         ============================================ -->
+    <div class="transcription-bar" id="transcriptionBar">
+        <div class="transcription-header" onclick="toggleTranscription()">
+            <div class="transcription-title">
+                <span class="dot"></span>
+                Transcription Live - OMEGAHUB
+            </div>
+            <button class="transcription-toggle" id="toggleIcon">▼</button>
+        </div>
+        <div class="transcription-content" id="transcriptionContent">
+            <div class="transcription-text" id="transcriptionText">
+                <p><span class="ai">OMEGAHUB AI:</span> Bienvenue sur OMEGAHUB - The OS of the AI Era. Je suis votre assistant IA. Comment puis-je vous aider aujourd'hui ?</p>
+            </div>
+        </div>
+        <div class="transcription-input">
+            <input type="text" id="chatInput" placeholder="Tapez votre message..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Envoyer</button>
+        </div>
+    </div>
+    
+    <div class="transcription-toggle-bar">
+        <button class="transcription-toggle-btn" onclick="toggleTranscription()" title="Ouvrir Transcription">💬</button>
+    </div>
+    
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
     <script>
-        // Loader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                gsap.to('#loader', {
-                    opacity: 0,
-                    duration: 1,
-                    onComplete: () => {
-                        document.getElementById('loader').style.display = 'none';
-                        initAnimations();
-                    }
-                });
-            }, 2000);
+        // Scroll Animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        fadeElements.forEach(elem => observer.observe(elem));
+        
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
         });
         
-        // Custom Cursor
-        const cursor = document.getElementById('cursor');
-        const cursorFollower = document.getElementById('cursor-follower');
-        
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, {
-                x: e.clientX - 10,
-                y: e.clientY - 10,
-                duration: 0.1
-            });
-            
-            gsap.to(cursorFollower, {
-                x: e.clientX - 4,
-                y: e.clientY - 4,
-                duration: 0.3
-            });
-        });
-        
-        // Hide cursor on mobile
-        if ('ontouchstart' in window) {
-            cursor.style.display = 'none';
-            cursorFollower.style.display = 'none';
-        }
-        
-        // Three.js Background
-        const canvas = document.getElementById('bg-canvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        // Create particles
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 2000;
-        const posArray = new Float32Array(particlesCount * 3);
-        
-        for (let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
-        }
-        
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.005,
-            color: 0x8a2be2,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending
-        });
-        
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-        
-        // Create rings
-        const ringGeometry = new THREE.RingGeometry(1.5, 1.6, 64);
-        const ringMaterial = new THREE.MeshBasicMaterial({
-            color: 0x8a2be2,
-            transparent: true,
-            opacity: 0.3,
-            side: THREE.DoubleSide
-        });
-        
-        for (let i = 0; i < 5; i++) {
-            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-            ring.rotation.x = Math.random() * Math.PI;
-            ring.rotation.y = Math.random() * Math.PI;
-            ring.scale.set(2 + i * 0.5, 2 + i * 0.5, 2 + i * 0.5);
-            scene.add(ring);
-        }
-        
-        camera.position.z = 3;
-        
-        // Mouse movement effect
-        let mouseX = 0;
-        let mouseY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-        
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            particlesMesh.rotation.y += 0.001;
-            particlesMesh.rotation.x += 0.0005;
-            
-            scene.rotation.y = mouseX * 0.3;
-            scene.rotation.x = mouseY * 0.1;
-            
-            renderer.render(scene, camera);
-        }
-        
-        animate();
-        
-        // Resize handler
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-        
-        // Create floating particles in DOM
-        const particlesContainer = document.getElementById('particles');
-        
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            
-            const colors = ['#8a2be2', '#ff00ff', '#00ffff', '#00ff88', '#ffaa00'];
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            
-            particlesContainer.appendChild(particle);
-        }
-        
-        // GSAP Animations
-        function initAnimations() {
-            gsap.registerPlugin(ScrollTrigger);
-            
-            // Navbar scroll
-            ScrollTrigger.create({
-                start: 'top -80',
-                onUpdate: (self) => {
-                    if (self.direction === 1 && self.progress > 0) {
-                        gsap.to('#navbar', { y: 0, duration: 0.3 });
-                    }
-                }
-            });
-            
-            // Reveal animations
-            gsap.utils.toArray('.reveal').forEach((elem) => {
-                gsap.fromTo(elem, 
-                    { opacity: 0, y: 50 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 1,
-                        scrollTrigger: {
-                            trigger: elem,
-                            start: 'top 80%',
-                            toggleActions: 'play none none reverse'
-                        }
-                    }
-                );
-            });
-            
-            // Counter animation
-            gsap.utils.toArray('.stat-number').forEach((elem) => {
-                const count = parseInt(elem.getAttribute('data-count'));
-                
-                gsap.fromTo(elem,
-                    { innerText: 0 },
-                    {
-                        innerText: count,
-                        duration: 2,
-                        ease: 'power2.out',
-                        snap: { innerText: 1 },
-                        scrollTrigger: {
-                            trigger: elem,
-                            start: 'top 80%'
-                        },
-                        onUpdate: function() {
-                            elem.innerText = Math.round(this.targets()[0].innerText);
-                        }
-                    }
-                );
-            });
-            
-            // Hero animations
-            gsap.from('.hero-badge', {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                delay: 0.5
-            });
-            
-            gsap.from('.hero h1', {
-                opacity: 0,
-                scale: 0.8,
-                duration: 1.5,
-                delay: 0.8
-            });
-            
-            gsap.from('.hero .tagline', {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                delay: 1.2
-            });
-            
-            gsap.from('.hero-cta', {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                delay: 1.5
-            });
-            
-            gsap.from('.scroll-indicator', {
-                opacity: 0,
-                duration: 1,
-                delay: 2
-            });
-            
-            // Floating elements parallax
-            gsap.utils.toArray('.floating-element').forEach((elem, i) => {
-                gsap.to(elem, {
-                    y: -50 - (i * 20),
-                    duration: 3 + i,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: 'sine.inOut'
-                });
-            });
-        }
-        
-        // Smooth scroll
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    gsap.to(window, {
-                        scrollTo: target,
-                        duration: 1.5,
-                        ease: 'power3.inOut'
-                    });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
         
-        // Button hover effects
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                gsap.to(btn, { scale: 1.05, duration: 0.3 });
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                gsap.to(btn, { scale: 1, duration: 0.3 });
-            });
-        });
+        // Transcription Functions
+        let transcriptionOpen = false;
         
-        // Protocol card tilt effect
-        document.querySelectorAll('.protocol-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                
-                gsap.to(card, {
-                    rotateX: rotateX,
-                    rotateY: rotateY,
-                    duration: 0.3,
-                    transformPerspective: 1000
-                });
-            });
+        function toggleTranscription() {
+            transcriptionOpen = !transcriptionOpen;
+            const bar = document.getElementById('transcriptionBar');
+            const icon = document.getElementById('toggleIcon');
             
-            card.addEventListener('mouseleave', () => {
-                gsap.to(card, {
-                    rotateX: 0,
-                    rotateY: 0,
-                    duration: 0.5
-                });
-            });
-        });
+            if (transcriptionOpen) {
+                bar.classList.add('active');
+                icon.textContent = '▲';
+            } else {
+                bar.classList.remove('active');
+                icon.textContent = '▼';
+            }
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') sendMessage();
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const transcriptText = document.getElementById('transcriptionText');
+            
+            // Add user message
+            transcriptText.innerHTML += `<p style="margin-top:12px"><span class="user">Vous:</span> ${text}</p>`;
+            
+            // AI Response
+            const responses = [
+                "OMEGAHUB analyse votre demande et vous fournit une réponse adaptée à vos besoins spécifiques.",
+                "Merci pour votre question. L'IA d'OMEGAHUB est conçue pour optimiser chaque interaction.",
+                "Je comprends votre besoin. Laissez-moi vous connecter avec l'assistant IA le plus pertinent.",
+                "Excellent point ! OMEGAHUB intègre l'intelligence artificielle pour des solutions personnalisées."
+            ];
+            
+            const aiResponse = responses[Math.floor(Math.random() * responses.length)];
+            transcriptText.innerHTML += `<p style="margin-top:8px"><span class="ai">OMEGAHUB AI:</span> ${aiResponse}</p>`;
+            
+            // Clear input
+            input.value = '';
+            
+            // Scroll to bottom
+            const content = document.getElementById('transcriptionContent');
+            content.scrollTop = content.scrollHeight;
+        }
     </script>
 </body>
 </html>
